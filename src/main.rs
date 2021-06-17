@@ -4,7 +4,6 @@ fn main() {
     let docker_ping = "docker ps";
 
     docker_ps(docker_ping);
-
 }
 
 fn docker_ps(command: &str) {
