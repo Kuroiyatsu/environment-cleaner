@@ -3,10 +3,8 @@ pub mod config;
 use powershell_script;
 
 fn main() {
-    
-    
    config::setup_config();
- 
+    
  
 }
 
