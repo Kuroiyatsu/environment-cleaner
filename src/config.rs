@@ -1,4 +1,8 @@
 use std::fs::{self, File};
+use std::io::stdin;
+use std::path::*;
+use std::*;
+
 pub struct Config {
     config_path: &'static str,
     config_file: &'static str,
@@ -16,6 +20,7 @@ impl Config {
     pub fn setup(&self) {
         if !self.has_config_file() {
             self.create_file();
+            self.initialize();
         }
     }
 
@@ -23,7 +28,7 @@ impl Config {
     fn has_config_file(&self) -> bool {
         let full_file_path = [self.config_path, self.config_file].join(""); //format!("{}{}", config_path, config_file);
 
-        std::path::Path::new(&full_file_path[..]).exists()
+        Path::new(&full_file_path[..]).exists()
     }
 
     /// Creates configuration file;
@@ -40,5 +45,26 @@ impl Config {
         println!("Configuration file created!");
     }
 
-    fn initialize() {}
+    pub fn initialize(&self) {
+        self.add_virtual_drive_locations();
+    }
+
+    fn add_virtual_drive_locations(&self) {
+        let mut done = false;
+        let mut response = String::new();
+
+        while !done {
+            println!("Enter location for virtual disk, including the drive name: ");
+
+            // TODO: Add "escape" functionality to quit and terminate application.
+            stdin()
+                .read_line(&mut response)
+                .expect("Invalid user input");
+
+            if !Path::new(&response).exists() {
+                println!("The virtual drive located at {} was not found.", &response);
+                continue;
+            }
+        }
+    }
 }
